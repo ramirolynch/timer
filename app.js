@@ -5,7 +5,7 @@ const minutesSpan = document.querySelector('#minutesSpan')
 const hoursSpan = document.querySelector('#hoursSpan')
 
 let timeGoal;
-let timeInt;
+//let timeInt;
 
 
 function timeOptions(num) {
@@ -19,11 +19,22 @@ let now = new Date().getTime();
 timeGoal = now +  hoursFast + minutesFast;
 console.log(timeGoal)
 
-timeInt = setInterval(countDown, 1000)
+//timeInt = setInterval(countDown, 1000)
+timerInterval()
 
 return timeGoal;
 
 }
+
+
+function timerInterval () {
+    let timeInt = setInterval(countDown, 1000)
+    return function() {
+                clearInterval(timeInt);
+    }
+}
+
+var clearInt = timerInterval();
 
 function timeChoice(event) {
 
@@ -71,12 +82,12 @@ document.body.addEventListener('click', event => {
 
 // interval that triggers the countDown function every second
 
-function clearTimer() {
+// function clearTimer() {
  
-    clearInterval(timeInt)
+//     clearInterval(timeInt)
 
-    console.log(`timer cleared`)
-}
+//     console.log(`timer cleared`)
+// }
 
 // this countdown function is called by the timer function
 
@@ -108,7 +119,7 @@ function countDown () {
     }
     else {
 
-        clearTimer()
+        clearInt()
 
     }
 }
