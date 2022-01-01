@@ -1,129 +1,101 @@
-(function(){
-
-const secondsSpan = document.querySelector('#secondsSpan')
-const minutesSpan = document.querySelector('#minutesSpan')
-const hoursSpan = document.querySelector('#hoursSpan')
+const secondsSpan = document.querySelector('#secondsSpan');
+const minutesSpan = document.querySelector('#minutesSpan');
+const hoursSpan = document.querySelector('#hoursSpan');
+//every button
+const buttons = document.querySelectorAll('[id^=button]');
 
 let timeGoal;
-//let timeInt;
+//global flag to indicate if an interval is running
+let intervalRunning = false;
 
+function reset() {
+    timeGoal = 0;
+    intervalRunning = false;
+}
 
 function timeOptions(num) {
-
-
-let minutes = 0;
-let hours = num;
-let hoursFast = hours * 60 * 60 * 1000
-let minutesFast = minutes * 1000 * 60
-let now = new Date().getTime();
-timeGoal = now +  hoursFast + minutesFast;
-console.log(timeGoal)
-
-//timeInt = setInterval(countDown, 1000)
-timerInterval()
-
-return timeGoal;
-
+    let minutes = 0;
+    let hours = num;
+    let hoursFast = hours * 60 * 60 * 1000;
+    let minutesFast = minutes * 1000 * 60;
+    let now = new Date().getTime();
+    let timeGoalToReturn = now + hoursFast + minutesFast;
+    console.log(timeGoalToReturn);
+    if (!intervalRunning) { clearInt = timerInterval(); };
+    return timeGoalToReturn;
 }
 
-
-function timerInterval () {
-    let timeInt = setInterval(countDown, 1000)
-    return function() {
-                clearInterval(timeInt);
+function timerInterval() {
+    let timeInt = setInterval(countDown, 1000);
+    intervalRunning = true;
+    return function () {
+        clearInterval(timeInt);
+        intervalRunning = false;
     }
 }
 
+// start the interval for the first time, and set clearInt equal to the anonymous function returned by timerInterval (our clearinterval)
 var clearInt = timerInterval();
 
-function timeChoice(event) {
+//iterate over each button and attach a click event to them - this could be simplified even more!
 
-    if (event.target.innerText === '24 Hs.') {
-
-        timeOptions(24)
+buttons.forEach(
+    (button) => button.addEventListener('click', event => {
+        if(!intervalRunning) {
+            if (event.target.innerText === '24 Hs.') {
     
+                timeGoal = timeOptions(24);
+    
+            }
+            else if (event.target.innerText === '20 Hs.') {
+    
+                timeGoal = timeOptions(20);
+    
+            }
+            //remove when you're done testing
+            else if (event.target.innerText === 'Test') {
+    
+                timeGoal = timeOptions(.002);
+    
+            }
+            else {
+                timeGoal = timeOptions(18);
+            }
         }
-        else if (event.target.innerText === '20 Hs.') {
-    
-        timeOptions(20)
-    
+        // a button was clicked to fast again, if an interval isn't already going run it. start the interval and store the function in clearInt again.. this could be made better, but you get the idea
+        if (!intervalRunning) {
+            clearInt = timerInterval;
         }
-        else {
-    
-        timeOptions(18)
-        }
-}
-
-// this function will be fired after the click and return the timeGoal depending on the button clicked
-
-function timeChoice() {
-
-document.body.addEventListener('click', event => {
-
-
-    if (event.target.innerText === '24 Hs.') {
-
-    timeOptions(24)
-
-    }
-    else if (event.target.innerText === '20 Hs.') {
-
-    timeOptions(20)
-
-    }
-    else {
-
-    timeOptions(18)
-    }
-
-})
-
-}
-
-// interval that triggers the countDown function every second
-
-// function clearTimer() {
- 
-//     clearInterval(timeInt)
-
-//     console.log(`timer cleared`)
-// }
+    })
+);
 
 // this countdown function is called by the timer function
 
-function countDown () {
-
-    timeChoice();
+function countDown() {
 
     let timeNow = new Date().getTime();
 
-    console.log(timeGoal)
-    console.log(timeNow)
-    console.log(timeGoal > timeNow)
+    console.log(timeGoal);
+    console.log(timeNow);
+    console.log(timeGoal > timeNow);
 
     if (timeGoal >= timeNow) {
+        let timeLeft = timeGoal - timeNow;
+        // remove congrats message
 
-      
-    let timeLeft = timeGoal - timeNow
-    // remove congrats message
-
-    let hoursLeft = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    let minutesLeft = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-    let secondsLeft = Math.floor((timeLeft % (1000 * 60)) / 1000);
-    
-    hoursSpan.innerText = `${hoursLeft}:`
-    minutesSpan.innerText = `${minutesLeft}:`
-    secondsSpan.innerText = secondsLeft
-
-
-    }
-    else {
-
-        clearInt()
-
+        let hoursLeft = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        let minutesLeft = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+        let secondsLeft = Math.floor((timeLeft % (1000 * 60)) / 1000);
+        //retain the leading zero when appropriate. You can make some logic to only do this for single digit values.
+        hoursSpan.innerText = "0" + hoursLeft;
+        minutesSpan.innerText = "0" + minutesLeft;
+        secondsSpan.innerText = "0" + secondsLeft;
+    } else if (!timeGoal) {
+        //the interval is running but no time goal has been set, keep checking for a time goal.
+        return;
+    } else {
+        //stop the timer and reset the global values where necessary
+        clearInt();
+        reset();
     }
 }
-
-timeChoice();
-
-})()
