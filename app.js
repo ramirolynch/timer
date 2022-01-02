@@ -29,7 +29,9 @@ function timeOptions(num) {
     let now = new Date().getTime();
     let timeGoalToReturn = now + hoursFast + minutesFast;
     console.log(timeGoalToReturn);
+    console.log
     if (!intervalRunning) { clearInt = timerInterval(); };
+
     return timeGoalToReturn;
 }
 
@@ -49,8 +51,10 @@ var clearInt = timerInterval();
 
 buttons.forEach(
     (button) => button.addEventListener('click', event => {
+
+        console.log(`intervalRunning is: ${intervalRunning}`)
         
-        if(intervalRunning) {
+        //if(!intervalRunning) {
             console.log(`forEach clicked`)
 
             if (event.target.innerText === '24 Hs.') {
@@ -76,7 +80,7 @@ buttons.forEach(
             else {
                 timeGoal = timeOptions(18);
             }
-        }
+        //}
         // a button was clicked to fast again, if an interval isn't already going run it. start the interval and store the function in clearInt again.. this could be made better, but you get the idea
         if (!intervalRunning) {
             clearInt = timerInterval;
@@ -96,6 +100,8 @@ function countDown() {
 
     console.log(`timeGoal > timeNow is: ${timeGoal > timeNow}`);
 
+    console.log(`intervalRunning is :${intervalRunning}`)
+
     if (timeGoal >= timeNow) {
         let timeLeft = timeGoal - timeNow;
         // remove congrats message
@@ -110,10 +116,16 @@ function countDown() {
 
     } else if (!timeGoal) {
         //the interval is running but no time goal has been set, keep checking for a time goal.
+
+        
         return;
     } else {
         //stop the timer and reset the global values where necessary
+        
         clearInt();
         reset();
+
+        console.log(`intervalRunning: ${intervalRunning}`)
+        
     }
 }
