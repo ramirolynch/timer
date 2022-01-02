@@ -8,6 +8,14 @@ let timeGoal;
 //global flag to indicate if an interval is running
 let intervalRunning = false;
 
+// helper function to add a zero to single digits
+
+function addZero(num) {
+  
+    return num.toString().length > 1 ? num : `0${num.toString()}`;
+}
+
+
 function reset() {
     timeGoal = 0;
     intervalRunning = false;
@@ -41,19 +49,26 @@ var clearInt = timerInterval();
 
 buttons.forEach(
     (button) => button.addEventListener('click', event => {
-        if(!intervalRunning) {
+        
+        if(intervalRunning) {
+            console.log(`forEach clicked`)
+
             if (event.target.innerText === '24 Hs.') {
     
                 timeGoal = timeOptions(24);
     
             }
             else if (event.target.innerText === '20 Hs.') {
+
+                console.log(`20 hr button hit`)
     
                 timeGoal = timeOptions(20);
     
             }
             //remove when you're done testing
             else if (event.target.innerText === 'Test') {
+
+                console.log(`this button hit`)
     
                 timeGoal = timeOptions(.002);
     
@@ -75,9 +90,11 @@ function countDown() {
 
     let timeNow = new Date().getTime();
 
-    console.log(timeGoal);
-    console.log(timeNow);
-    console.log(timeGoal > timeNow);
+    console.log(`timeGoal is: ${timeGoal}`)
+
+    console.log(`timeNow is: ${timeNow}`);
+
+    console.log(`timeGoal > timeNow is: ${timeGoal > timeNow}`);
 
     if (timeGoal >= timeNow) {
         let timeLeft = timeGoal - timeNow;
@@ -87,9 +104,10 @@ function countDown() {
         let minutesLeft = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
         let secondsLeft = Math.floor((timeLeft % (1000 * 60)) / 1000);
         //retain the leading zero when appropriate. You can make some logic to only do this for single digit values.
-        hoursSpan.innerText = "0" + hoursLeft;
-        minutesSpan.innerText = "0" + minutesLeft;
-        secondsSpan.innerText = "0" + secondsLeft;
+        hoursSpan.innerText = addZero(hoursLeft);
+        minutesSpan.innerText = addZero(minutesLeft);
+        secondsSpan.innerText = addZero(secondsLeft);
+
     } else if (!timeGoal) {
         //the interval is running but no time goal has been set, keep checking for a time goal.
         return;
