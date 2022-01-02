@@ -40,7 +40,6 @@ function timerInterval() {
     intervalRunning = true;
     return function () {
         clearInterval(timeInt);
-        intervalRunning = false;
     }
 }
 
