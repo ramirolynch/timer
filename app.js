@@ -69,13 +69,7 @@ buttons.forEach(
     
             }
             //remove when you're done testing
-            else if (event.target.innerText === 'Test') {
-
-                console.log(`this button hit`)
     
-                timeGoal = timeOptions(.002);
-    
-            }
             else {
                 timeGoal = timeOptions(18);
             }
