@@ -13,13 +13,15 @@ color: #565f45;
 }
 
 
+
+
 main > p {
-    font-size: 3em;
+    font-size: 2em;
     
     height:55px;
     /* centering */
     position:fixed;
-    top:13%;
+    top:20%;
     right:50%;
     transform:translateX(50%)
 }
@@ -59,5 +61,13 @@ p > span {
 
 
  span {
-    color: #766D31;
+    color: #565f45;
 }
+
+p#streak {
+    font-family: 'Special Elite', cursive;
+    color: #565f45;
+    position:fixed;
+    top:30%;
+}
+
