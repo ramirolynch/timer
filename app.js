@@ -8,6 +8,7 @@ const streakElem = document.querySelector('#streak');
 // this variable increases as fasts are completed
 let streak = 0;
 
+
 let timeGoal;
 //global flag to indicate if an interval is running
 let intervalRunning = false;
@@ -18,6 +19,19 @@ function addZero(num) {
   
     return num.toString().length > 1 ? num : `0${num.toString()}`;
 }
+
+function checkStreak() {
+    if (localStorage.getItem('streakCount') !== null) {
+        let streakCount = JSON.parse(localStorage.getItem('streakCount'))
+        streak = streakCount
+        streakElem.innerText = `Streak: ${streak}`
+    }
+    else {
+        streakElem.innerText = `Streak: 0`
+    }
+}
+// when page loads, check if there is a streak going on and display it in the streak variable
+checkStreak();
 
 function addStreak() {
 // get storage if there is something otherwise save to storage parse and then save back
@@ -39,6 +53,20 @@ else {
     localStorage.setItem('streakCount', JSON.stringify(streak))
  }
 }
+
+function saveTimeGoal(time) {
+
+    localStorage.setItem('timeGoalSave', JSON.stringify(time))   
+}
+
+function checkTimeGoal() {
+
+    if (localStorage.getItem('timeGoalSave') !== null) {
+
+        timeGoal = JSON.parse(localStorage.getItem('timeGoalSave'))
+    }
+}
+checkTimeGoal();
 
 
 function reset() {
@@ -84,6 +112,7 @@ buttons.forEach(
             if (event.target.innerText === '24 Hs.') {
     
                 timeGoal = timeOptions(24);
+                saveTimeGoal(timeGoal)
     
             }
             else if (event.target.innerText === '20 Hs.') {
@@ -91,6 +120,7 @@ buttons.forEach(
                 console.log(`20 hr button hit`)
     
                 timeGoal = timeOptions(20);
+                saveTimeGoal(timeGoal)
     
             }
             //remove when you're done testing
@@ -99,10 +129,12 @@ buttons.forEach(
                 console.log(`this button hit`)
     
                 timeGoal = timeOptions(.002);
+                saveTimeGoal(timeGoal)
     
             }
             else {
                 timeGoal = timeOptions(18);
+                saveTimeGoal(timeGoal)
             }
         //}
         // a button was clicked to fast again, if an interval isn't already going run it. start the interval and store the function in clearInt again.. this could be made better, but you get the idea
