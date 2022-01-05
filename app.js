@@ -3,6 +3,10 @@ const minutesSpan = document.querySelector('#minutesSpan');
 const hoursSpan = document.querySelector('#hoursSpan');
 //every button
 const buttons = document.querySelectorAll('[id^=button]');
+const streakElem = document.querySelector('#streak');
+
+// this variable increases as fasts are completed
+let streak = 0;
 
 let timeGoal;
 //global flag to indicate if an interval is running
@@ -13,6 +17,27 @@ let intervalRunning = false;
 function addZero(num) {
   
     return num.toString().length > 1 ? num : `0${num.toString()}`;
+}
+
+function addStreak() {
+// get storage if there is something otherwise save to storage parse and then save back
+// first we do something if there is something there
+if (localStorage.getItem('streakCount') !== null) {
+
+    let streakCount = JSON.parse(localStorage.getItem('streakCount'))
+    streakCount++
+    streak = streakCount
+    streakElem.innerText = `Streak: ${streak}`
+    console.log(streak)
+    
+    localStorage.setItem('streakCount', JSON.stringify(streak))
+}
+else {
+    streak++
+    streakElem.innerText = `Streak: ${streak}`
+    console.log(streak)
+    localStorage.setItem('streakCount', JSON.stringify(streak))
+ }
 }
 
 
@@ -87,14 +112,6 @@ function countDown() {
 
     let timeNow = new Date().getTime();
 
-    console.log(`timeGoal is: ${timeGoal}`)
-
-    console.log(`timeNow is: ${timeNow}`);
-
-    console.log(`timeGoal > timeNow is: ${timeGoal > timeNow}`);
-
-    console.log(`intervalRunning is :${intervalRunning}`)
-
     if (timeGoal >= timeNow) {
         let timeLeft = timeGoal - timeNow;
         // remove congrats message
@@ -117,8 +134,7 @@ function countDown() {
         
         clearInt();
         reset();
-
-        console.log(`intervalRunning: ${intervalRunning}`)
+        addStreak()
         
     }
 }
