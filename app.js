@@ -40,6 +40,20 @@ else {
  }
 }
 
+function saveTimeGoal(time) {
+
+    localStorage.setItem('timeGoalSave', JSON.stringify(time))   
+}
+
+function checkTimeGoal() {
+
+    if (localStorage.getItem('timeGoalSave') !== null) {
+
+        timeGoal = JSON.parse(localStorage.getItem('timeGoalSave'))
+    }
+}
+checkTimeGoal();
+
 
 function reset() {
     timeGoal = 0;
