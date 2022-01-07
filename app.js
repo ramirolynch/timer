@@ -96,8 +96,9 @@ buttons.forEach(
             console.log(`forEach clicked`)
 
             if (event.target.innerText === '24 Hs.') {
-    
+
                 timeGoal = timeOptions(24);
+                saveTimeGoal(timeGoal)
     
             }
             else if (event.target.innerText === '20 Hs.') {
@@ -105,12 +106,14 @@ buttons.forEach(
                 console.log(`20 hr button hit`)
     
                 timeGoal = timeOptions(20);
+                saveTimeGoal(timeGoal)
     
             }
             //remove when you're done testing
     
             else {
                 timeGoal = timeOptions(18);
+                saveTimeGoal(timeGoal)
             }
         //}
         // a button was clicked to fast again, if an interval isn't already going run it. start the interval and store the function in clearInt again.. this could be made better, but you get the idea
